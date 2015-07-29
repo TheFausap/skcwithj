@@ -91,9 +91,9 @@ m1=.re^:(1e_10&>@|@im)"0 m1
 
 GenPaul=: dyad define
 NB. Generates a Generalized Pauli matrix
-j=.1{x
+j=.x
 k=.y
-d=.0{x
+NB.d=.0{x
 Z=.ZW d
 X=.XW d
 if. (j=0) *. k=0 do.
@@ -110,9 +110,9 @@ end.
 getUnitaryBasis=: monad define
 NB. generates an unitary basis for the specified dimension
 l1=.i.y
-d=.y
-NB.res=.(d,l1) GenPaul"0 / l1
-res=.(d,l1) GenPaul / l1
+d=:y
+res=.l1 GenPaul"0 / l1
+NB.res=.(d,l1) GenPaul / l1
 d;((i.d) ;"0/ (i.d));"1 2 res
 )
 
