@@ -1,6 +1,9 @@
 NB. Solovay-Kitaev Theorem
 
-load 'math/mt'
+load 'math/lapack math/lapack/geev'
+coinsert 'jlapack'
+NB. exponential matrix
+load 'math/mt' 
 
 self_adjoint_operators=:0$''
 
@@ -24,28 +27,36 @@ elseif. y=y do.
 end.
 )
 
+NB. matrix multiplication
 mm=:+/ .*
 
+NB. matrix eigenvalues 
 eigvals=:monad define
-0{ggevlnn_mt_ y ,: idmat_mt_ */$y
+>1{geev y
 )
 
+NB. matrix trace
 trace=:monad define
 +/(<0 1) |: y
 )
 
+NB. matrix adjoint
 adj=:monad define 
 _10&o.|:y
 )
 
+NB. kronecker product
 kron=:dyad define
 (x *&$ y) ($,) 0 2 1 3 |: x */ y
 )
 
+NB. vector norm
 norm=: monad define
 %:+/*:y
 )
 
+NB. return a diagonal matrix with specified elements
+NB. in the left argument
 diag=: 4 : 0
  assert. (0=#$y) +. (<./x)=#y
  y ((#x) #&.> i.<./x)} x$0
@@ -100,6 +111,7 @@ vectorDistance=: dyad define
 norm x-y
 )
 
+NB. returns the direct sum of two matrices
 matrixDirectSum=: dyad define
 xr=.0{$x
 xc=.1{$x
@@ -110,16 +122,39 @@ m2=.((xr,yc)$0),y
 m1,.m2
 )
 
+NB. returns a diagonal matrix with the elements
+NB. equals to the exponential value of the diagonal
+NB. elements of original matrix
 matrixExpDiag=: monad define
 ($y) diag ^(<0 1) |: y
 )
 
+NB. returns a diagonal matrix with the elements
+NB. equals to the natural log value of the diagonal
+NB. elements of original matrix
+getMatrixLogarithm=: monad define
+($y) diag ^.(<0 1) |: y
+)
+
+NB. returns exp(A) where A is matrix
 matrixExp=: monad define
 geexp_mt_ y
 )
 
+NB. return the matrix from the ancestor string
+NB. using the iset dictionary
 getMfromA =: monad define
 pos=.1 + I. iset_dict = <y
 t=.(pos{iset_dict)
 matrix__t
+)
+
+NB. returns the matrix V and matrix W
+NB. according this schema : V * U * V^{-1} = W
+NB. where U is the right argument and a basis is the left one.
+diagonalize =: dyad define
+d=.0{>0{x
+matrixV=.>0{clean geev y
+matrixW=.(%. matrixV) mm y mm matrixV
+matrixV;clean matrixW
 )

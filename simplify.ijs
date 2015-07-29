@@ -117,6 +117,7 @@ else.
 end.
 )
 
+NB. these are global objects used as simplification rules.
 simpRules=:doubleOpSimp`identSimp`adjointSimp
 doubleOpId=:1$'H'
 generalOpId=:'TTTTTTTT';'TdTdTdTdTdTdTdTd'

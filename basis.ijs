@@ -62,7 +62,7 @@ res1=.((1+i.y);"0 y);"1 2 m1
 res1=.'h';"1 res1
 res2=.((0{"1 l2);"0 (1{"1 l2));"1 2 m2
 res2=.'f';"1 res2
-res1,res2
+d;res1,res2
 )
 
 XW=:monad define
@@ -90,10 +90,10 @@ m1=.re^:(1e_10&>@|@im)"0 m1
 )
 
 GenPaul=: dyad define
-NB.d=.0{y
 NB. Generates a Generalized Pauli matrix
-j=.x
+j=.1{x
 k=.y
+d=.0{x
 Z=.ZW d
 X=.XW d
 if. (j=0) *. k=0 do.
@@ -110,9 +110,10 @@ end.
 getUnitaryBasis=: monad define
 NB. generates an unitary basis for the specified dimension
 l1=.i.y
-d=:y
-res=.l1 GenPaul"0 / l1
-((i.d) ;"0/ (i.d));"1 2 res
+d=.y
+NB.res=.(d,l1) GenPaul"0 / l1
+res=.(d,l1) GenPaul / l1
+d;((i.d) ;"0/ (i.d));"1 2 res
 )
 
 hsInnerProduct=: dyad define
