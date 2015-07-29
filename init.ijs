@@ -15,6 +15,10 @@ PI_HALF=: PI%2
 THREE_PI_HALF=: 1.5*PI
 TWO_PI=:2p1
 
+NB. generate random numbers between 0 and 1
+NB. the argument specifies how many random numbers generate
+rand=:(>:@? % 2147483647&[) @ $ & 2147483646
+
 noMat=:0 0$0
 
 daggerAndSimplify=: monad define
