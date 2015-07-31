@@ -12,3 +12,18 @@ matr=.values * >{:"1 (2}.y)
 matr=.+/matr
 components;matr
 )
+
+expHermitian2Unitary=: dyad define
+NB. x =: angle;matrix_H
+NB. y =: basis
+matrixU=.>1{x
+mVmW=.y diagonalize matrixU
+matrixV=.>0{mVmW
+matrixW=.>1{mVmW
+angle=.>0{x
+angle=._1*_11 o. angle
+Udiag =. matrixExpDiag angle*matrixW
+matrixV mm Udiag mm %. matrixV
+)
+
+
